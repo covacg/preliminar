@@ -1,0 +1,964 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Mechassit</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        :root {
+            --body-color: #18191a;
+            --sidebar-color: #242526;
+            --primary-color: #0094FF;
+            --primary-color-light: #3a3b3c;
+            --text-color: #fff;
+            --tran-03: all 0.2s ease;
+            --tran-04: all 0.3s ease;
+            --tran-05: all 0.3s ease;
+            --border-radius: 6px;
+        }
+        body {
+            min-height: 100vh;
+            background-color: var(--body-color);
+            transition: var(--tran-05);
+        }
+        ::selection {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding: 10px 14px;
+            background: var(--sidebar-color);
+            transition: var(--tran-05);
+            z-index: 100;
+        }
+        .sidebar li {
+            height: 50px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .sidebar header .image,
+        .sidebar .icon {
+            min-width: 60px;
+            border-radius: 6px;
+        }
+        .sidebar .icon {
+            min-width: 60px;
+            border-radius: 6px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-color);
+            
+        }
+        .sidebar .text,
+        .sidebar .icon {
+            color: var(--text-color);
+            transition: var(--tran-03);
+        }
+        .sidebar .text {
+            font-size: 17px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 1;
+        }
+        .sidebar header {
+            position: relative;
+        }
+        .sidebar header .image-text {
+            display: flex;
+            align-items: center;
+        }
+        .sidebar header .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        header .image-text .name {
+            margin-top: 2px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+        header .image-text .profession {
+            font-size: 16px;
+            margin-top: -2px;
+            display: block;
+            color: #0094FF;
+        }
+        .sidebar header .image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar header .image img {
+            width: 40px;
+            border-radius: 6px;
+        }
+        .sidebar .menu {
+            margin-top: 40px;
+        }
+        .sidebar li.search-box {
+            border-radius: 6px;
+            background-color: var(--primary-color-light);
+            cursor: pointer;
+            transition: var(--tran-05);
+        }
+        .sidebar li.search-box input {
+            height: 100%;
+            width: 100%;
+            outline: none;
+            border: none;
+            background-color: var(--primary-color-light);
+            color: var(--text-color);
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 500;
+            transition: var(--tran-05);
+        }
+        .sidebar li a {
+            list-style: none;
+            height: 100%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: var(--tran-03);
+        }
+        .sidebar li a:hover {
+            background-color: var(--primary-color);
+        }
+        .sidebar li a:hover .icon,
+        .sidebar li a:hover .text {
+            color: var(--sidebar-color);
+        }
+        .sidebar .menu-bar {
+            height: calc(100% - 55px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: scroll;
+        }
+        .menu-bar::-webkit-scrollbar {
+            display: none;
+        }
+        .home {
+            position: absolute;
+            top: 0;
+            top: 0;
+            left: 250px;
+            height: 100vh;
+            width: calc(100% - 250px);
+            background-color: var(--body-color);
+            transition: var(--tran-05);
+            padding: 0 20px;
+        }
+        .home .text {
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--text-color);
+            padding: 12px 60px;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            padding: 20px;
+        }
+        .form-container h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            color: white;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: transparent;
+            color: white;
+            outline: none;
+        }
+        .form-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #0094FF;
+            color: white;
+            margin-right: 10px;
+        }
+        .btn-primary:last-child {
+            background-color: var(--primary-color-light);
+            color: white;
+        }
+        .sidebar .menu-links .nav-link.profile {
+            background-color: var(--primary-color);
+        }
+        .sidebar .menu-links .nav-link.profile .icon {
+            color: var(--sidebar-color);
+        }
+        .sidebar .menu-links .nav-link.profile .text {
+            color: var(--sidebar-color);
+        }
+        .sidebar .menu-links .nav-link.profile {
+            background-color: var(--primary-color);
+            border-radius: var(--border-radius);
+        }
+        /* .add-vehicle-form {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: left;
+            margin: 10px 0;
+            display: block;
+        } */
+        .add-vehicle-form {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center; /* Center align the text within the form */
+        margin: 10px auto; /* Vertical margins keep as is, horizontal margins set to auto to center the form */
+        width: 30%; /* This sets the form width to 50% of the parent element, you can adjust this value to your preference */
+        display: block;
+        /* Removed any left or right padding/margin that might have been here */
+        }
+        .add-vehicle-form label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            font-weight: bold;
+        }
+        .add-vehicle-form select,
+        .add-vehicle-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+        .add-vehicle-form .form-actions {
+        display: flex;
+        justify-content: flex-end; /* Esto alinea el botón a la derecha */
+        }
+
+        .add-vehicle-button {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .add-vehicle-button:hover {
+            background-color: var(--primary-color-light);
+        }
+        .add-vehicle-button .add-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .form-group input, .form-group select {
+            color: black;
+        }
+        .vehicle-list h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        .vehicle-item {
+            list-style: none;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+
+        }
+        .vehicle-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .vehicle-label {
+            font-weight: 600;
+            margin-right: 5px;
+            width: 150px;
+            
+        }
+        .vehicle-info {
+            color: #333;
+        }
+
+        .vehicle-list {
+            margin-top: 20px;
+            background-color: transparent;
+            box-shadow: none;
+        }
+        .vehicle-item {
+            list-style: none;
+            position: relative;
+            background-color: rgb(253, 253, 253);;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .vehicle-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+        .vehicle-label {
+            font-weight: 600;
+            width: 30%;
+            color: #0094FF;
+        }
+        .vehicle-info {
+            width: 70%;
+            color: #000;
+        }
+        .empty-vehicle-message {
+            color: #ffffff;
+        }
+
+        .delete-vehicle-button {
+            background: transparent; 
+            border: none; 
+            cursor: pointer;
+            font-size: 25px;
+        }
+
+        .edit-vehicle-button {
+            background: transparent; 
+            border: none; 
+            cursor: pointer;
+            margin-left: 3ch;
+            font-size: 25px;
+        }
+
+        .vehicle-list ul {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* crea tres columnas */
+            grid-gap: 20px; /* espacio entre los items */
+            list-style-type: none; /* quita los bullets de la lista */
+            padding: 0; /* quita el padding por defecto de la lista */
+        }
+
+        .vehicle-item {
+            background-color: #f9f9f9; /* color de fondo para cada item */
+            border: 1px solid #ddd; /* borde para cada item */
+            padding: 10px; /* padding dentro de cada item */
+            display: flex; /* para alinear los botones y detalles del vehículo */
+            flex-direction: column; /* organiza los detalles del vehículo en columna */
+            justify-content: space-between; /* distribuye el espacio verticalmente */
+        }
+
+        .button-container {
+            align-self: flex-end; /* alinea los botones a la derecha */
+        }
+
+        .position-bottom-right {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            /* Add any other styling you need for the button container */
+        }
+        .vehicle-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: #0094FF;
+        }
+
+        h2 {
+            margin: 0;
+            display: inline-block; 
+            color: #0094FF;
+        }
+        .form-container h1 {
+            color: #0094FF;
+            margin-bottom: 20px;
+        }
+
+        .toggle-form-button i {
+            font-size: 29px; /* Ajusta según tus necesidades */
+            color: #0094FF; /* El color que prefieras */
+        }
+
+        .vehicles-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .text {
+            margin-right: 15px; /* Ajusta este valor según lo que necesites */
+            font-size: 24px; /* O el tamaño de fuente que prefieras */
+            /* Asegúrate de no tener un margen o padding que empuje el botón hacia la derecha */
+        }
+
+        .toggle-form-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex; /* inline-flex permite que el botón se ajuste al contenido */
+            align-items: center;
+            padding: 5px;
+            margin-left: 10px;
+            /* Asegúrate de no tener un margen o padding que empuje el botón hacia la derecha */
+        }
+        .header-container {
+            margin-left: 0; /* Ajusta el margen izquierdo del contenedor a 0 */
+            padding-left: 0; /* Ajusta el padding izquierdo si es necesario */
+            /* Otras propiedades que podrían ser necesarias según tu layout */
+        }
+
+        .open-button {
+            background-image: url('/static/images/Sleeping_bot.png'); /* Path to your bot image */
+            background-color: #18191a;
+            background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+            background-position: center;
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            color: transparent; /* Hide the text */
+            border: none;
+            cursor: pointer;
+            /* opacity: 0.8; */
+            position: fixed;
+            bottom: 23px;
+            right: 30px;
+            width: 80px; /* Adjust to the size you want */
+            height: 80px; /* Adjust to the size you want */
+            overflow: hidden; /* Hide any overflow */
+            z-index: 1; /* This should be higher than the .open-button's z-index */
+            }
+
+            .open-button.chat-open {
+            display: none;
+            }
+
+
+            .chat-popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 0px; /* Position it above the bot image; adjust as needed */
+            right: 30px; /* Align with the right side of the bot image */
+            width: 340px; /* Adjust as needed */
+            height: 520px;
+            border: none;
+            z-index: 15; /* Above the bot image */
+            border-radius: 20px; /* Rounded corners for the chat bubble */
+            box-shadow: none; /* Optional: adds a shadow for depth */
+            }
+
+            .chat-popup::before {
+            content: '';
+            position: absolute;
+            bottom: -20px; /* Position the triangle just below the chat window */
+            right: 50px; /* Position the triangle to point towards the bot image */
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid white; /* Color of the thought bubble */
+            border-top-color: #FFFFFF;
+            }
+
+            .chat-content { /* This class name is an example, use the actual class or ID from your HTML */
+            background-color: #00FF00; /* Replace with your preferred shade of green */
+            /* Other styles... */
+            }
+
+
+
+
+        .chatbot-window {
+            min-height: 410px;  
+        }
+
+        .btn_cancel {
+        background-image: url('/static/images/bot.png'); /* Path to your bot image */
+            background-color:  #18191a;
+            background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+            background-position: center;
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            color: transparent; /* Hide the text */
+            border: none;
+            cursor: pointer;
+            /* opacity: 0.8; */
+            position: fixed;
+            bottom: 23px;
+            right: 30px;
+            width: 80px; /* Adjust to the size you want */
+            height: 80px; /* Adjust to the size you want */
+            overflow: hidden; /* Hide any overflow */
+        }
+
+
+
+        .error-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 0; 
+            z-index: 999; 
+        }
+
+        .error {
+            width: 320px;
+            padding: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+            background: #EF665B;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px -3px #111;
+            margin-top: 10px
+        }
+
+        .error__icon {
+            width: 20px;
+            height: 20px;
+            transform: translateY(-2px);
+            margin-right: 8px;
+        }
+
+        .error__icon path {
+            fill: #fff;
+        }
+
+        .error__title {
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .error__close {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .error__close path {
+            fill: #fff;
+        }
+        
+        .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 200px;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        position: relative;
+    }
+
+    .modal-buttons {
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        margin: 0 10px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    .btn-danger {
+        background-color: #ff4d4d;
+        color: #fff;
+        border: 1px solid #ff4d4d;
+    }
+    </style>
+</head>
+
+
+<body>
+    <div id="overlay" class="overlay"></div>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="{% static 'images/logo.png' %}" alt="">
+                </span>
+                <div class="text logo-text">
+                    <span class="name">Mechassit</span>
+                    <span class="profession" style="color: #0094FF;">Tu auto, tu elección</span>
+                </div>
+            </div>
+        </header>
+        <button class="open-button" onclick=openForm()>Exchange Bot!</button>
+        <div class="chat-popup" id="chatbotpanel">
+            <form class="form-chatbot" > 
+                <iframe class = "chatbot-window" src='https://webchat.botframework.com/embed/lenguajedsccacg-bot?s=IswowqYAPpw.CVtprtkHlrC7niqvbef5xdrG0OY6AMMn9P4K7ewJeRk'></iframe>
+                <button type="button" class="btn_cancel" onclick=closeForm()>Cerrar Bot</button>
+            </form>
+        </div>
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="{%url 'ctalleres' %}">
+                            <i class='bx bx-search icon'></i>
+                            <span class="text nav-text">Talleres</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'ccalendario' %}">
+                            <i class='bx bx-time icon'></i>
+                            <span class="text nav-text">Citas</span>
+                          </a>
+                    </li>
+                    <li class="nav-link profile">
+                        <a href="{%url 'cvehiculos' %}">
+                            <i class='bx bx-car icon'></i>
+                            <span class="text nav-text">Vehículos</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{%url 'cperfil' %}">
+                            <i class='bx bx-edit icon'></i>
+                            <span class="text nav-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{%url 'login' %}">
+                            <i class='bx bx-log-out icon'></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="home">    
+        <!-- Sección de listado de vehículos -->
+        <div class="vehicle-list-header">
+            <h1>Mis vehículos</h1>
+            <button id="toggleFormButton" class="toggle-form-button">
+                <i class='bx bx-plus'></i>
+            </button>
+        </div>
+            <div class="add-vehicle-form" id="addVehicleForm">
+                <h2>Agregar Vehículo</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <br>
+                    <div class="form-group">
+                        <label for="id_tipo">Tipo de Vehículo:</label>
+                        {{ form.tipo }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_modelo">Modelo:</label>
+                        <input type="text" name="modelo" id="id_modelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_año">Año:</label>
+                        <select id="id_año" name="año">
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="add-vehicle-button">
+                            <box-icon name='plus-circle' type='solid' color='#0094ff'></box-icon> Agregar Vehículo
+                        </button>
+                    </div>
+                    
+                </form>
+            </div>
+          <br>
+        <div class="vehicle-list">
+            <ul>
+                {% for vehiculo in vehiculos %}
+                <li class="vehicle-item">
+                    <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
+                        {% csrf_token %}
+                        <div class="button-container">
+                            <button type="submit" class="delete-vehicle-button" style="background: transparent;">
+                                <i class='bx bx-trash' style="color: red;"></i>
+                            </button>
+                            <a href="{% url 'actualizar_vehiculo' vehiculo.id %}">
+                                <button type="button" class="edit-vehicle-button" style="background: transparent;">
+                                    <i class='bx bx-edit' style="color: rgb(0, 0, 0);"></i>
+                                </button>
+                            </a>
+                            
+                        </div>
+                    </form>
+                    <div class="vehicle-details">
+                        <strong class="vehicle-label">Tipo:</strong>
+                        <span class="vehicle-info">{{ vehiculo.tipo }}</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <strong class="vehicle-label" style="color: #0094FF;">Modelo:</strong>
+                        <span class="vehicle-info">{{ vehiculo.modelo }}</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <strong class="vehicle-label" style="color: #0094FF;">Año:</strong>
+                        <span class="vehicle-info">{{ vehiculo.año }}</span>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="empty-vehicle-message">No tienes vehículos registrados.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <h2>Confirmar Eliminación</h2>
+                <p>¿Estás seguro que quieres eliminar este vehículo?</p>
+                <div class="modal-buttons">
+                    <button id="cancelBtn" class="btn">Cancelar</button>
+                    <button id="deleteBtn" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="error-container {% if messages %}block{% else %}none{% endif %}">
+            {% if messages %}
+              <div class="error">
+                <div class="error__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none">
+                    <path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path>
+                  </svg>
+                </div>
+                <div class="error__title">
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+                </div>
+                <div class="error__close" id="closeButton">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" height="20">
+                    <path fill="#393a37" d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"></path>
+                  </svg>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+
+
+          <!-- Modal para Editar -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h2>Editar Vehículo</h2>
+        <form id="editForm" method="post">
+            {% csrf_token %}
+            <br>
+            <div class="form-group">
+                <label for="edit_tipo">Tipo de Vehículo:</label>
+                <input type="text" id="edit_tipo" name="edit_tipo" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_modelo">Modelo:</label>
+                <input type="text" id="edit_modelo" name="edit_modelo" required>
+            </div>
+            <div class="form-group">
+                <label for="edit_año">Año:</label>
+                <select id="edit_año" name="edit_año">
+                    <!-- Opciones de año -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="updateVehicle()" class="update-vehicle-button">
+                    Actualizar
+                </button>
+                <button type="button" onclick="closeEditModal()" class="cancel-update-button">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+          
+
+    </section>
+</body>
+</html>
+
+#Agregar auto
+<script>
+    const toggleFormButton = document.getElementById("toggleFormButton");
+    const addVehicleForm = document.getElementById("addVehicleForm");
+    addVehicleForm.style.display = "none";
+    toggleFormButton.addEventListener("click", () => {
+        if (addVehicleForm.style.display === "none") {
+            addVehicleForm.style.display = "block";
+        } else {
+            addVehicleForm.style.display = "none";
+        }
+    });
+
+
+    const yearSelect = document.getElementById("id_año");
+    const currentYear = new Date().getFullYear();
+
+    // Agregar una opción para el año actual al principio
+    const currentYearOption = document.createElement("option");
+    currentYearOption.value = currentYear;
+    currentYearOption.text = currentYear;
+    yearSelect.appendChild(currentYearOption);
+
+    // Generar opciones para años desde 1905 hasta el año actual
+    for (let year = currentYear - 1; year >= 1905; year--) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.text = year;
+        yearSelect.appendChild(option);
+    }
+</script>
+
+
+<script>
+function openForm() {
+    document.getElementById("chatbotpanel").style.display = "block";
+    document.getElementById('open-button').classList.add('chat-open');
+}
+
+function closeForm() {
+    document.getElementById("chatbotpanel").style.display = "none";
+    document.getElementById('open-button').classList.remove('chat-open');
+}
+
+</script>
+
+#Elimiar auto
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete-vehicle-button");
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const form = button.closest("form");
+
+            document.getElementById("deleteModal").style.display = "block";
+
+            document.getElementById("deleteBtn").addEventListener("click", function () {
+                // Realizar la eliminación y recargar la página como si se presionara F5
+                fetch(form.action, {
+                    method: "POST",
+                    body: new FormData(form),
+                    headers: {
+                        "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value,
+                    },
+                }).then(function () {
+                    document.getElementById("deleteModal").style.display = "none";
+                    
+                    // Agrega un parámetro a la URL de redirección
+                    const url = new URL(window.location.href);
+                    url.searchParams.set("vehicle_deleted", "true");
+                    
+                    // Redirige a la URL modificada
+                    window.location.href = url.toString();
+                });
+            });
+
+            document.getElementById("cancelBtn").addEventListener("click", function () {
+                document.getElementById("deleteModal").style.display = "none";
+            });
+        });
+    });
+});
+</script>
+
+
+#Aviso
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const closeButton = document.getElementById('closeButton');
+        const errorDiv = document.querySelector('.error');
+  
+        closeButton.addEventListener('click', function () {
+            errorDiv.style.display = 'none';
+        });
+    });
+</script>
+  
+#overlay
+<script>
+    function openForm() {
+      document.getElementById("chatbotpanel").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+      document.getElementById('open-button').classList.add('chat-open');
+    }
+  
+    function closeForm() {
+      document.getElementById("chatbotpanel").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+      document.getElementById('open-button').classList.remove('chat-open');
+    }
+  </script>

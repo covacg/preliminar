@@ -1,0 +1,663 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <title>Mechassit</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    :root {
+      --body-color: #18191a;
+      --sidebar-color: #242526;
+      --primary-color: #0094FF;
+      --text-color: #fff;
+      --tran-05: all 0.3s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--body-color);
+      transition: var(--tran-05);
+    }
+
+    ::selection {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 250px;
+      padding: 10px 14px;
+      background: var(--sidebar-color);
+      transition: var(--tran-05);
+      z-index: 100;
+    }
+
+    .sidebar li {
+      height: 50px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .sidebar header .image,
+    .sidebar .icon {
+      min-width: 60px;
+      border-radius: 6px;
+    }
+
+    .sidebar .icon {
+      min-width: 60px;
+      border-radius: 6px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--text-color);
+    }
+
+    .sidebar .text,
+    .sidebar .icon {
+      color: var(--text-color);
+      transition: var(--tran-05);
+    }
+
+    .sidebar .text {
+      font-size: 17px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 1;
+    }
+
+    .sidebar header {
+      position: relative;
+    }
+
+    .sidebar header .image-text {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar header .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header .image-text .name {
+      margin-top: 2px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    header .image-text .profession {
+      font-size: 16px;
+      margin-top: -2px;
+      display: block;
+      color: #0094FF;
+    }
+
+    .sidebar header .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar header .image img {
+      width: 40px;
+      border-radius: 6px;
+    }
+
+    .sidebar .menu {
+      margin-top: 40px;
+    }
+
+    .sidebar li.search-box {
+      border-radius: 6px;
+      background-color: var(--primary-color-light);
+      cursor: pointer;
+      transition: var(--tran-05);
+    }
+
+    .sidebar li.search-box input {
+      height: 100%;
+      width: 100%;
+      outline: none;
+      border: none;
+      background-color: var(--primary-color-light);
+      color: var(--text-color);
+      border-radius: 6px;
+      font-size: 17px;
+      font-weight: 500;
+      transition: var(--tran-05);
+    }
+
+    .sidebar li a {
+      list-style: none;
+      height: 100%;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: var(--tran-05);
+    }
+
+    .sidebar li a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .sidebar li a:hover .icon,
+    .sidebar li a:hover .text {
+      color: var(--sidebar-color);
+    }
+
+    .sidebar .menu-bar {
+      height: calc(100% - 55px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: scroll;
+    }
+
+    .menu-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .home {
+      position: absolute;
+      top: 0;
+      left: 250px;
+      height: 100vh;
+      width: calc(100% - 250px);
+      background-color: var(--body-color);
+      transition: var(--tran-05);
+      padding: 20px;
+    }
+
+    .home h1 {
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .icon-box {
+      font-size: 36px;
+      color: #fff;
+      margin-right: 10px;
+    }
+
+    .description,
+    .details,
+    .services,
+    .opinions {
+      background-color: #fff; 
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .description h2,
+    .details h2,
+    .services h2,
+    .opinions h2 {
+      color: #0094FF;
+    }
+
+    .description p,
+    .details p,
+    .services p,
+    .opinions p {
+      color: #000000;
+    }
+
+    .description i,
+    .details i,
+    .services i,
+    .opinions i {
+      color: #000000;
+    }
+
+    .services,
+    .opinions {
+      margin-top: 0;
+    }
+
+    .services {
+  background-color: #fff; /* Cambiado a azul */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: #000000; /* Cambiado a blanco */
+  width: 50%; /* Ocupa la mitad del ancho */
+}
+
+.details {
+  background-color: #fff; /* Cambiado a azul */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: #fff; /* Cambiado a blanco */
+  width: 50%; /* Ocupa la mitad del ancho */
+}
+
+
+    .opinions textarea {
+      width: 55%;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      color: #000000;
+      font-size: 16px;
+      outline: none;
+      resize: none;
+    }
+
+    .sidebar .nav-link.profile,
+    .sidebar .nav-link.profile:hover {
+      background-color: var(--primary-color);
+    }
+
+    .sidebar .nav-link.profile .icon,
+    .sidebar .nav-link.profile .text,
+    .sidebar .nav-link.profile:hover .icon,
+    .sidebar .nav-link.profile:hover .text {
+      color: var(--sidebar-color);
+    }
+
+    .sidebar .nav-link.profile,
+    .sidebar .nav-link.profile:hover {
+      background-color: var(--primary-color);
+      border-radius: 6px;
+    }
+
+    .sidebar .nav-link.profile .icon,
+    .sidebar .nav-link.profile .text,
+    .sidebar .nav-link.profile:hover .icon,
+    .sidebar .nav-link.profile:hover .text {
+      color: var(--sidebar-color);
+    }
+
+    .opinion-header {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-name {
+      margin-right: 10px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+      text-decoration: none;
+      color: #007BFF;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-delete {
+      color: #FF0000;
+    }
+
+    .details-services {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Divide el contenedor en dos columnas de igual tamaño */
+      gap: 20px; /* Espacio entre las dos columnas */
+    }
+
+  .details {
+    background-color: #ffffff; /* Cambiado a azul */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    color: #000000; /* Cambiado a blanco */
+    width: 100%; /* Ocupa el 100% del ancho de su columna */
+  }
+
+  .services {
+    background-color: #ffffff; /* Color de fondo blanco */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    color: #000000; /* Color de texto negro */
+    width: 100%; /* Ocupa el 100% del ancho de su contenedor */
+  }
+
+  .btn-primary {
+    display: inline-block; /* Asegura que se comporte como un botón */
+    padding: 10px 20px; /* Añade espacio alrededor del texto */
+    margin-top: 10px; /* Añade espacio por encima del botón */
+    margin-right: 20px; /* Añade espacio a la derecha del botón para evitar que esté pegado al borde */
+    border: none; /* Quita cualquier borde predeterminado */
+    border-radius: 5px; /* Redondea las esquinas */
+    background-color: rgba(0, 0, 0, 0.583); /* Color de fondo semi-transparente negro */
+    color: white; /* Color del texto blanco */
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    cursor: pointer; /* Cambia el cursor a la forma de una mano */
+    transition: background-color 0.3s ease; /* Suaviza la transición del color de fondo */
+  }
+
+  .btn-primary:hover,
+  .btn-primary:active {
+    background-color: #007BFF; /* Cambia el color de fondo al pasar el cursor o al hacer clic */
+  }
+
+  .form-group {
+    display: block; /* or 'flex', with 'flex-direction: column;' if you need more control */
+    margin-bottom: 15px; /* Adjust as needed for spacing */
+  }
+
+  .form-group label {
+    display: block; /* Makes the label take up the full width */
+    margin-bottom: 5px; /* Adds some space between the label and the textarea */
+  }
+
+  .open-button {
+      background-image: url('/static/images/Sleeping_bot.png'); /* Path to your bot image */
+      background-color: #fff;
+      background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+      background-position: center;
+      background-repeat: no-repeat; /* Prevent the image from repeating */
+      color: transparent; /* Hide the text */
+      border: none;
+      cursor: pointer;
+      /* opacity: 0.8; */
+      position: fixed;
+      bottom: 23px;
+      right: 30px;
+      width: 80px; /* Adjust to the size you want */
+      height: 80px; /* Adjust to the size you want */
+      overflow: hidden; /* Hide any overflow */
+      z-index: 1; /* This should be higher than the .open-button's z-index */
+    }
+
+    .open-button.chat-open {
+      display: none;
+    }
+
+
+    .chat-popup {
+      display: none; /* Initially hidden */
+      position: fixed;
+      bottom: 0px; /* Position it above the bot image; adjust as needed */
+      right: 30px; /* Align with the right side of the bot image */
+      width: 340px; /* Adjust as needed */
+      height: 520px;
+      border: none;
+      z-index: 15; /* Above the bot image */
+      border-radius: 20px; /* Rounded corners for the chat bubble */
+      box-shadow: none; /* Optional: adds a shadow for depth */
+    }
+
+    .chat-popup::before {
+      content: '';
+      position: absolute;
+      bottom: -20px; /* Position the triangle just below the chat window */
+      right: 50px; /* Position the triangle to point towards the bot image */
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid white; /* Color of the thought bubble */
+      border-top-color: #FFFFFF;
+    }
+
+    .chat-content { /* This class name is an example, use the actual class or ID from your HTML */
+      background-color: #00FF00; /* Replace with your preferred shade of green */
+      /* Other styles... */
+    }
+
+  .chatbot-window {
+      min-height: 410px;  
+    }
+
+  .btn_cancel {
+    background-image: url('/static/images/bot.png'); /* Path to your bot image */
+        background-color:  #fff;
+        background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+        background-position: center;
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        color: transparent; /* Hide the text */
+        border: none;
+        cursor: pointer;
+        /* opacity: 0.8; */
+        position: fixed;
+        bottom: 23px;
+        right: 30px;
+        width: 80px; /* Adjust to the size you want */
+        height: 80px; /* Adjust to the size you want */
+        overflow: hidden; /* Hide any overflow */
+      }
+
+  </style>
+</head>
+
+<body>
+  <nav class="sidebar">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="{% static 'images/logo.png' %}" alt="">
+        </span>
+        <div class="text logo-text">
+          <span class="name">Mechassit</span>
+          <span class="profession" style="color: #0094FF;">Tu auto, tu elección</span>
+        </div>
+      </div>
+    </header>
+    <button class="open-button" onclick=openForm()>Exchange Bot!</button>
+
+    <div class="chat-popup" id="chatbotpanel">
+        <form class="form-chatbot" > 
+            <iframe class = "chatbot-window" src='https://webchat.botframework.com/embed/lenguajedsccacg-bot?s=IswowqYAPpw.CVtprtkHlrC7niqvbef5xdrG0OY6AMMn9P4K7ewJeRk'></iframe>
+            <button type="button" class="btn_cancel" onclick=closeForm()>Cerrar Bot</button>
+        </form>
+    </div>
+    <div class="menu-bar">
+      <div class="menu">
+        <ul class="menu-links">
+          <li class="nav-link profile">
+            <a href="{%url 'ctalleres' %}">
+              <i class='bx bx-search icon'></i>
+              <span class="text nav-text">Talleres</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{%url 'ccalendario' %}">
+              <i class='bx bx-time icon'></i>
+              <span class="text nav-text">Citas</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{%url 'cvehiculos' %}">
+              <i class='bx bx-car icon'></i>
+              <span class="text nav-text">Vehículos</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{%url 'cperfil' %}">
+              <i class='bx bx-edit icon'></i>
+              <span class="text nav-text">Perfil</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{%url 'login' %}">
+              <i class='bx bx-log-out icon'></i>
+              <span class="text nav-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="home">
+    <h1>{{ taller.user.username }}</h1>
+
+    <div class="description" style="background-color: #fff; color: #000000;">
+      <h2 class="section-title"><i class="bx bx-building-house icon-box"></i>Acerca del taller</h2>
+      <p>
+        {{ taller.descripcion }}
+      </p>
+    </div>
+    
+    <div class="details-services">
+      <div class="details" style="background-color: #fff;">
+        <h2 class="section-title"><i class="bx bx-user icon-box"></i>Detalles del Taller</h2>
+        <p><b>Dirección:</b>{{ taller.direccion }}</p>
+        <p><b>Código Postal (CP):</b>{{ taller.cp }}</p>
+        <p><b>Número de Teléfono:</b>{{ taller.telefono }}</p>
+        <p><b>Correo Electrónico:</b>{{ taller.user.email }}</p>
+        <div id="map" style="height: 300px;"></div>
+      </div>
+    
+      <div class="services" style="background-color: #fff">
+        <h2 class="section-title"><i class="bx bx-cog icon-box"></i>Servicios</h2>
+        <ul class="servicios-list">
+          {% for service in servicios %}
+            <li>
+              <b>{{ service.service_name }}</b> - <b>Tiempo:</b> {{ service.get_service_time_display }} - <b>Precio: </b>${{ service.service_price }}
+            </li>
+          {% endfor %}
+        </ul>
+        <div style="text-align: right;">
+          <a href="{% url 'reservar_cita' taller_name=taller_name %}" class="btn btn-primary">Reservar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="opinions">
+      <h2 class="section-title"><i class="bx bx-detail icon-box"></i>Opiniones</h2>
+
+      <div class="opinion-list">
+        {% for opinion in opiniones %}
+            <div class="opinion-box">
+                <div class="opinion-header">
+                    <p class="user-name"><b>{{ opinion.id_usuario.username }}</b></p>
+                    {% if opinion.id_usuario == request.user %}
+                        <a href="{% url 'editar_opinion' opinion.id %}" class="btn-edit">
+                            <i class="bx bx-edit"></i>
+                        </a>
+                        <a href="{% url 'eliminar_opinion' opinion.id %}" class="btn-delete">
+                          <i class="bx bx-trash-alt"></i>
+                      </a>
+                    {% endif %}
+                </div>
+                <p class="opinion-text">{{ opinion.opinion }}</p>
+                <p class="opinion-date">Fecha: {{ opinion.fecha_creacion }}</p>
+
+                {% if opinion.sentimiento == 'alegre' %}
+                    <p class="opinion-sentimiento">😊</p>
+                {% elif opinion.sentimiento == 'triste' %}
+                    <p class="opinion-sentimiento">😢</p>
+                {% elif opinion.sentimiento == 'neutro' %}
+                    <p class="opinion-sentimiento">😐</p>
+                {% elif opinion.sentimiento == 'enojado' %}
+                    <p class="opinion-sentimiento">😡</p>
+                {% else %}
+                    <p class="opinion-sentimiento">Otro</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 20px;"></div>
+
+    <form id="opinion-form" method="post" >
+      {% csrf_token %}
+      <div class="form-group">
+          <label for="opinion"> <b>Escribe tu opinión:</b></label>
+          <textarea name="opinion" id="opinion" rows="5" required></textarea>
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary" >Publicar Opinión</button>
+      </div>
+      
+    </form>
+  
+  </section>
+  <script>
+    function openForm() {
+      document.getElementById("chatbotpanel").style.display = "block";
+      document.getElementById('open-button').classList.add('chat-open');
+    }
+
+    function closeForm() {
+      document.getElementById("chatbotpanel").style.display = "none";
+      document.getElementById('open-button').classList.remove('chat-open');
+    }
+  </script>
+</body>
+</html>
+
+
+<script src="https://nominatim.openstreetmap.org/search?format=json"></script>
+
+  <!-- Añade esto después de cargar Nominatim y Leaflet -->
+  <script>
+    // Usa la dirección del taller para obtener las coordenadas con Nominatim
+    var address = "{{ taller.direccion }}, {{ taller.cp }}, {{ taller.ciudad }}";
+    var nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      address
+    )}`;
+
+    // Realiza la solicitud a Nominatim
+    fetch(nominatimUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // Verifica si se obtuvieron resultados
+        if (data.length > 0) {
+          // Obtiene las coordenadas
+          var lat = data[0].lat;
+          var lon = data[0].lon;
+
+          // Inicializa el mapa con Leaflet
+          var map = L.map('map').setView([lat, lon], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+          // Añade un marcador en el taller
+          L.marker([lat, lon]).addTo(map);
+        } else {
+          console.error('No se encontraron resultados para la dirección:', address);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener coordenadas:', error);
+      });
+  </script>
+

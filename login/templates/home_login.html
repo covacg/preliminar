@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechassit</title>
+<link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+  * { box-sizing: border-box; }
+  
+  body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(https://images.unsplash.com/photo-1525841508523-2aebc593a6b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .left {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+  }
+
+  .form-field {
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 15px;
+    color: black;
+  }
+
+  .form-field:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .form > button {
+    padding: 10px 20px;
+    border: none;
+    background: #0f7ef1;
+    border-radius: 6px;
+    margin-top: 15px;
+    color: white;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <div class="header">
+        <h2 class="animation a1">Bienvenido</h2>
+        <h4 class="animation a2">Ingresa a Mechanics Revolution</h4>
+      </div>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="form">
+          <input type="Correo" id="correo" name="correo" class="form-field animation a3" placeholder="Correo" autocomplete="off">
+          <input type="password" id="contrasena" name="contrasena"  class="form-field animation a4" placeholder="Contraseña" autocomplete="off">
+          <button type="submit" class="animation a6">LOGIN</button>
+          <p>{{error_message}}</p>
+          <div class="animation a5">
+            <br>
+            <a href="registeroption" style="color: #0f7ef1; margin-right: 20px;">Registrarse</a>
+            <a href="registeroption" style="color: #0f7ef1;">Olvidé contraseña</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

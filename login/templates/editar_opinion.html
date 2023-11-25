@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechassit</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        :root {
+            /* ===== Colors ===== */
+            --body-color: #18191a;
+            --primary-color: #0094FF;
+            --text-color: #fff;
+            /* ====== Transition ====== */
+            --tran-03: all 0.2s ease;
+            --tran-04: all 0.3s ease;
+            --tran-05: all 0.3s ease;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--body-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .form-container h1 {
+            color: white;
+        }
+
+        .form-container label {
+            color: white;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid white; /* Borde blanco de 1px */
+            background-color: transparent;
+            color: white;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 15px;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #0077CC;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Editar Opinión</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="nuevo_texto">Nueva Opinión:</label>
+            <textarea id="nuevo_texto" name="nuevo_texto" rows="4" cols="50" style="border: 1px solid white;">{{ opinion.opinion }}</textarea>
+            <input type="submit" value="Guardar Cambios">
+        </form>
+    </div>
+</body>
+</html>

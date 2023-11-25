@@ -1,0 +1,721 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+  <title>Mechassit</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    :root {
+      /* ===== Colors ===== */
+      --body-color: #18191a;
+      --sidebar-color: #242526;
+      --primary-color: #0094FF;
+      --primary-color-light: #3a3b3c;
+      --text-color: #fff; /* Cambio de color de texto a blanco */
+      /* ====== Transition ====== */
+      --tran-03: all 0.2s ease;
+      --tran-04: all 0.3s ease;
+      --tran-05: all 0.3s ease;
+
+      --border-radius: 6px;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--body-color);
+      transition: var(--tran-05);
+    }
+
+    ::selection {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 250px;
+      padding: 10px 14px;
+      background: var(--sidebar-color);
+      transition: var(--tran-05);
+      z-index: 100;
+    }
+
+    .sidebar li {
+      height: 50px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .sidebar header .image,
+    .sidebar .icon {
+      min-width: 60px;
+      border-radius: 6px;
+    }
+
+    .sidebar .icon {
+      min-width: 60px;
+      border-radius: 6px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--text-color); /* Cambio de color de iconos */
+    }
+
+    .sidebar .text,
+    .sidebar .icon {
+      color: var(--text-color);
+      transition: var(--tran-03);
+    }
+
+    .sidebar .text {
+      font-size: 17px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 1;
+    }
+
+    .sidebar header {
+      position: relative;
+    }
+
+    .sidebar header .image-text {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar header .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header .image-text .name {
+      margin-top: 2px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff; /* Cambio de color de texto a blanco */
+    }
+
+    header .image-text .profession {
+      font-size: 16px;
+      margin-top: -2px;
+      display: block;
+      color: #0094FF; /* Cambio de color de texto a azul */
+    }
+
+    .sidebar header .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar header .image img {
+      width: 40px;
+      border-radius: 6px;
+    }
+
+    .sidebar .menu {
+      margin-top: 40px;
+    }
+
+    .sidebar li.search-box {
+      border-radius: 6px;
+      background-color: var(--primary-color-light);
+      cursor: pointer;
+      transition: var(--tran-05);
+    }
+
+    .sidebar li.search-box input {
+      height: 100%;
+      width: 100%;
+      outline: none;
+      border: none;
+      background-color: var(--primary-color-light);
+      color: var(--text-color);
+      border-radius: 6px;
+      font-size: 17px;
+      font-weight: 500;
+      transition: var(--tran-05);
+    }
+
+    .sidebar li a {
+      list-style: none;
+      height: 100%;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: var(--tran-03);
+    }
+
+    .sidebar li a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .sidebar li a:hover .icon,
+    .sidebar li a:hover .text {
+      color: var(--sidebar-color);
+    }
+
+    .sidebar .menu-bar {
+      height: calc(100% - 55px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: scroll;
+    }
+
+    .menu-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .home {
+      position: absolute;
+      top: 0;
+      top: 0;
+      left: 250px;
+      height: 100vh;
+      width: calc(100% - 250px);
+      background-color: var(--body-color);
+      transition: var(--tran-05);
+    }
+
+    .home .text {
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-color);
+      padding: 12px 60px;
+    }
+
+/* Estilos para quitar el fondo del formulario y botones redondeados */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.form-container h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: white;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}
+
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px; /* Redondea los botones */
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #0094FF; /* Cambia el fondo a azul */
+    color: white; /* Cambia el color del texto a blanco */
+    margin-right: 10px;
+}
+
+.container {
+    margin: 20px auto; /* Cambia a margen automático para centrar */
+    max-width: 960px; /* Ajusta esto al ancho deseado */
+    padding: 20px; /* Añade un padding para que el contenido no toque los bordes del contenedor */
+    border-radius: 6px; /* Mantiene los bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Opcional: añade una sombra para darle profundidad */
+    display: flex; /* Usa flexbox para centrar los hijos verticalmente si es necesario */
+    flex-direction: column; /* Orientación de los hijos de flexbox */
+    align-items: center; /* Centra los hijos horizontalmente */
+}
+
+.service-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Esto centrará los elementos horizontalmente */
+    justify-content: center; /* Esto centrará los elementos verticalmente si el contenedor tiene altura definida */
+    width: 79%; /* Asegúrate de que el formulario ocupe todo el ancho de su contenedor */
+}
+
+.service-form .form-group label,
+.service-form .section-title {
+    text-align: center; /* Centra el texto de los labels y títulos */
+    display: block; /* Asegúrate de que sean elementos de bloque para ocupar todo el ancho */
+    width: 100%; /* Opcional: si deseas que los títulos y labels ocupen todo el ancho */
+}
+
+.service-form .form-group {
+    width: 100%; /* Ocupar todo el ancho para centrar los inputs dentro */
+    display: flex;
+    justify-content: center; /* Centra los controles del formulario */
+    flex-direction: column; /* Alinea los controles del formulario en columna */
+}
+
+.service-form .form-group input,
+.service-form .form-group select {
+    margin: 0 auto; /* Margen automático para centrar */
+    display: inline-block; /* Para permitir margen automático */
+}
+
+.service-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Asegura que los elementos estén centrados en la fila */
+    gap: 20px; /* Define el espacio entre los cuadros */
+}
+
+.service-item {
+    flex: 1 1 calc(40% - 8px); /* Ajusta el tamaño de los cuadros para que dos de ellos encajen en una fila */
+    max-width: calc(40% - 16px); /* Asegura que el ancho máximo sea la mitad del contenedor, menos el gap */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra para los cuadros */
+    margin-bottom: 20px; /* Espacio debajo de cada cuadro */
+    /* Otros estilos como padding, border, etc., que ya puedas tener */
+}
+
+.btn-primary:last-child {
+    background-color: var(--primary-color-light); /* Cambia el fondo del segundo botón a otro color si es necesario */
+    color: white; /* Cambia el color del texto a blanco */
+}
+
+.sidebar .menu-links .nav-link.profile {
+  background-color: var(--primary-color);
+}
+
+/* Estilo para el ícono del perfil */
+.sidebar .menu-links .nav-link.profile .icon {
+  color: var(--sidebar-color); /* Cambio de color de ícono en el estado base */
+}
+
+/* Estilo para el texto del perfil */
+.sidebar .menu-links .nav-link.profile .text {
+  color: var(--sidebar-color); /* Cambio de color de texto en el estado base */
+}
+/* Estilo base para el elemento de "Perfil" */
+.sidebar .menu-links .nav-link.profile {
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius); /* Aplica esquinas redondeadas */
+}
+
+/* Estilo de hover para el elemento de "Perfil" */
+.sidebar .menu-links .nav-link.profile:hover {
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius); /* Aplica esquinas redondeadas en hover */
+}
+
+/* Estilo para el ícono del perfil */
+.sidebar .menu-links .nav-link.profile .icon {
+  color: var(--sidebar-color);
+}
+
+/* Estilo para el texto del perfil */
+.sidebar .menu-links .nav-link.profile .text {
+  color: var(--sidebar-color);
+}
+
+    /* Estilos para el formulario de búsqueda */
+    .form-container {
+      display: flex;
+      flex-direction: row; /* Alinea los campos de búsqueda horizontalmente */
+      align-items: center;
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    .form-container h2 {
+      color: white;
+      margin-right: 20px;
+    }
+
+    .form-group {
+      margin-right: 20px; /* Espacio entre los campos de búsqueda */
+    }
+
+    .form-group:last-child {
+      margin-right: 0; /* Sin espacio a la derecha para el último campo de búsqueda */
+    }
+
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.service-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+}
+
+/* Ajuste el ancho de los elementos select para que coincidan con los campos de entrada */
+.form-group select {
+    width: 50%; /* Esto asegura que tomen el mismo ancho que los inputs */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #242526;
+    outline: none;
+}
+
+
+.btn-primary {
+  background-color: #18191a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+    background-color: #0094FF; /* Color verde cuando se pasa el cursor por encima */
+    /* ... Cualquier otro estilo que desees aplicar al pasar el cursor ... */
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Estilo para la lista de servicios registrados */
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-item {
+  background-color: #f9f9f9;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 50%;
+}
+
+.service-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.service-details {
+  font-size: 14px;
+  color: #555;
+}
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-item {
+  display: flex; /* Utiliza flexbox para alinear elementos horizontalmente */
+  justify-content: space-between; /* Espacio entre los elementos */
+  background-color: #f9f9f9;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.service-details {
+  flex: 1; /* El primer contenedor ocupa todo el espacio disponible */
+}
+
+.service-extra-details {
+  font-size: 14px;
+  color: #555;
+}
+
+.service-icons {
+  display: flex; /* Los íconos se alinearán horizontalmente */
+  align-items: center; /* Los íconos estarán centrados verticalmente */
+}
+
+/* Estilo para el ícono de editar (azul) */
+.edit-icon i {
+  color: #0094FF;
+}
+
+/* Estilo para el ícono de eliminar (rojo) */
+.delete-icon i {
+  color: #ff0000;
+}
+
+.open-button {
+  background-image: url('/static/images/Sleeping_bot.png'); /* Path to your bot image */
+  background-color: #18191a;
+  background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+  background-position: center;
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  color: transparent; /* Hide the text */
+  border: none;
+  cursor: pointer;
+  /* opacity: 0.8; */
+  position: fixed;
+  bottom: 23px;
+  right: 30px;
+  width: 80px; /* Adjust to the size you want */
+  height: 80px; /* Adjust to the size you want */
+  overflow: hidden; /* Hide any overflow */
+  z-index: 1; /* This should be higher than the .open-button's z-index */
+}
+
+.open-button.chat-open {
+  display: none;
+}
+
+
+.chat-popup {
+  display: none; /* Initially hidden */
+  position: fixed;
+  bottom: 0px; /* Position it above the bot image; adjust as needed */
+  right: 30px; /* Align with the right side of the bot image */
+  width: 340px; /* Adjust as needed */
+  height: 520px;
+  border: none;
+  z-index: 15; /* Above the bot image */
+  border-radius: 20px; /* Rounded corners for the chat bubble */
+  box-shadow: none; /* Optional: adds a shadow for depth */
+}
+
+.chat-popup::before {
+  content: '';
+  position: absolute;
+  bottom: -20px; /* Position the triangle just below the chat window */
+  right: 50px; /* Position the triangle to point towards the bot image */
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid white; /* Color of the thought bubble */
+  border-top-color: #FFFFFF;
+}
+
+.chat-content { /* This class name is an example, use the actual class or ID from your HTML */
+  background-color: #00FF00; /* Replace with your preferred shade of green */
+  /* Other styles... */
+}
+
+.chatbot-window {
+  min-height: 410px;  
+}
+
+.btn_cancel {
+  background-image: url('/static/images/bot.png'); /* Path to your bot image */
+  background-color:  #18191a;
+  background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+  background-position: center;
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  color: transparent; /* Hide the text */
+  border: none;
+  cursor: pointer;
+  /* opacity: 0.8; */
+  position: fixed;
+  bottom: 23px;
+  right: 30px;
+  width: 80px; /* Adjust to the size you want */
+  height: 80px; /* Adjust to the size you want */
+  overflow: hidden; /* Hide any overflow */
+}
+
+@media (max-width: 768px) {
+    .service-item {
+        flex: 0 0 100%; /* En pantallas pequeñas, cada cuadro toma el ancho completo */
+        max-width: 100%; /* Ancho máximo del 100% para pantallas pequeñas */
+    }
+}
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="{% static 'images/logo.png' %}" alt="">
+        </span>
+        <div class="text logo-text">
+          <span class="name">Mechassit</span>
+          <span class="profession" style="color: #0094FF;">Tu auto, tu elección</span>
+        </div>
+      </div>
+    </header>
+    <button class="open-button" onclick=openForm()>Exchange Bot!</button>
+    <div class="chat-popup" id="chatbotpanel">
+        <form class="form-chatbot" > 
+          <iframe class = "chatbot-window" src='https://webchat.botframework.com/embed/lenguajeUMFA-bot?s=Z9OF1TgOblM.9jnrAMNseuDItmzlUPdXwGbgf8N4fXed6kQJCgLfVmo'></iframe>
+          <button type="button" class="btn_cancel" onclick=closeForm()>Cerrar Bot</button>
+        </form>
+    </div>
+    <div class="menu-bar">
+      <div class="menu">
+        <ul class="menu-links">
+          <li class="nav-link">
+            <a href="{% url 'tanalitica' %}">
+              <i class='bx bx-analyse icon'></i>
+              <span class="text nav-text">Analítica</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{% url 'tcalendario' %}">
+              <i class='bx bx-time icon'></i>
+              <span class="text nav-text">Citas</span>
+            </a>
+          </li>
+          <li class="nav-link profile">
+            <a href="{% url 'tservicios' %}">
+              <i class='bx bx-gas-pump icon'></i>
+              <span class="text nav-text">Servicios</span>
+            </a>
+          </li>
+          <!-- <li class="nav-link">
+            <a href="{% url 'tnotificaciones' %}">
+              <i class='bx bx-bell icon'></i>
+              <span class="text nav-text">Notificaciones</span>
+            </a>
+          </li> -->
+          <li class="nav-link">
+            <a href="{% url 'tperfil' %}">
+              <i class='bx bx-edit icon'></i>
+              <span class="text nav-text">Perfil</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="{% url 'login' %}">
+              <i class='bx bx-log-out icon'></i>
+              <span class="text nav-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="home">
+    <div class="container">
+      <br>
+      <h2 class="section-title">Registrar Servicio</h2>
+      <form method="post" class="service-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_service_name" style="color: #333;">Nombre del Servicio:</label>
+          {{ form.service_name }}
+        </div>
+        <div class="form-group">
+          <label for="id_service_time" style="color: #333;">Tiempo de Servicio:</label>
+          {{ form.service_time }}
+        </div>
+        <div class="form-group">
+          <label for="id_service_price" style="color: #333;">Precio del Servicio:</label>
+          {{ form.service_price }}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar servicio</button>
+      </form>
+  
+      {% if error_message %}
+        <div class="error-message">{{ error_message }}</div>
+      {% endif %}
+  
+      <hr>
+      <br> <br>
+      <h2 class="section-title">Servicios Registrados</h2>
+      <ul class="service-list">
+        {% for servicio in servicios %}
+          <li class="service-item">
+            <div class="service-details">
+              <span class="service-name"><b>{{ servicio.service_name }}</b></span>
+              <br>
+              <span class="service-extra-details">
+                <b>Tiempo:</b> {{ servicio.get_service_time_display }} | <b>Precio:</b> ${{ servicio.service_price }}
+              </span>
+            </div>
+            <div class="service-icons">
+              <a href="{% url 'editar_servicio' servicio.id %}" class="edit-icon"><i class='bx bx-edit'></i></a>
+              <a href="{% url 'eliminar_servicio' servicio.id %}" class="delete-icon"><i class='bx bx-trash'></i></a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      </ul>      
+    </div>
+  </section>
+  <script>
+    function openForm() {
+      document.getElementById("chatbotpanel").style.display = "block";
+      document.getElementById('open-button').classList.add('chat-open');
+    }
+    function closeForm() {
+      document.getElementById("chatbotpanel").style.display = "none";
+      document.getElementById('open-button').classList.remove('chat-open');
+    }
+  </script>  
+</body>
+</html>
