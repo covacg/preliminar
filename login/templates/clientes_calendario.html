@@ -416,31 +416,75 @@
     border-top: 20px solid white; /* Color of the thought bubble */
     border-top-color: #FFFFFF;
   }
-  
-  .chatbot-window {
-    min-height: 410px;  
+
+  .chat-content { /* This class name is an example, use the actual class or ID from your HTML */
+    background-color: #00FF00; /* Replace with your preferred shade of green */
+    /* Other styles... */
   }
+
+
+
+
+  .chatbot-window {
+      min-height: 410px;  
+    }
 
   .btn_cancel {
     background-image: url('/static/images/bot.png'); /* Path to your bot image */
-    background-color:  #18191a;
-    background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
-    background-position: center;
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    color: transparent; /* Hide the text */
-    border: none;
-    cursor: pointer;
-    /* opacity: 0.8; */
-    position: fixed;
-    bottom: 23px;
-    right: 30px;
-    width: 80px; /* Adjust to the size you want */
-    height: 80px; /* Adjust to the size you want */
-    overflow: hidden; /* Hide any overflow */
-    }
+        background-color:  #18191a;
+        background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+        background-position: center;
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        color: transparent; /* Hide the text */
+        border: none;
+        cursor: pointer;
+        /* opacity: 0.8; */
+        position: fixed;
+        bottom: 23px;
+        right: 30px;
+        width: 80px; /* Adjust to the size you want */
+        height: 80px; /* Adjust to the size you want */
+        overflow: hidden; /* Hide any overflow */
+      }
 
-</style>
+      .modal {
+display: none;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: #fefefe;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+/* Estilo para el contenido del modal */
+.modal-content {
+text-align: center;
+}
+
+/* Estilo para los botones del modal */
+#confirmarBtn,
+#cerrarBtn {
+margin-top: 10px;
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+#confirmarBtn {
+background-color: #4caf50;
+color: white;
+}
+
+#cerrarBtn {
+background-color: #f44336;
+color: white;
+}
+    
+  </style>
 </head>
 <body>
   <nav class="sidebar">
@@ -512,22 +556,22 @@
                 <h3 class="cita-username">Citas de {{ cita.usuario.extendeddata.user.username }}</h3>
                 <div class="cita-actions">
                   {% if cita.estatus == 'Agendada' %}
-                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar">
+                  <a  class="btn-cancelar" onclick="abrirModal('{{ cita.id|safe }}')">
                     <i class='bx bx-trash-alt' style='color: red; font-size: 20px;'></i>
                   </a>
                   {% endif %}
                   {% if cita.estatus == 'En espera de entrega de vehículo' %}
-                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar">
+                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar" onclick="abrirModal('{{ cita.id|safe }}')">
                     <i class='bx bx-trash-alt' style='color: red; font-size: 20px;'></i>
                   </a>
                   {% endif %}
                   {% if cita.estatus == 'En progreso' %}
-                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar">
+                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar" onclick="abrirModal('{{ cita.id|safe }}')">
                     <i class='bx bx-trash-alt' style='color: red; font-size: 20px;'></i>
                   </a>
                   {% endif %}
                   {% if cita.estatus == 'En espera de recogida de vehículo' %}
-                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar">
+                  <a href="{% url 'cancelar_cita' cita.id %}" class="btn-cancelar" onclick="abrirModal('{{ cita.id|safe }}')">
                     <i class='bx bx-trash-alt' style='color: red; font-size: 20px;'></i>
                   </a>
                   {% endif %}
@@ -544,7 +588,18 @@
         {% endfor %}
       </ul>
     </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <p>¿Estás seguro de cancelar la cita?</p>
+        <button id="confirmarBtn" onclick="confirmarCancelacion('{{ cita.id|safe }}')">Sí, estoy seguro</button>
+        <button id="cerrarBtn" onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
   </section>
+
+
+  
   <script>
     function openForm() {
       document.getElementById("chatbotpanel").style.display = "block";
@@ -559,3 +614,32 @@
   </script>
 </body>
 </html>
+
+<script>
+  function abrirModal(citaId) {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+
+    // Guardar el ID de la cita en un atributo del modal
+    modal.setAttribute("data-cita-id", citaId);
+  }
+
+  function cerrarModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+  }
+
+  function confirmarCancelacion() {
+    var modal = document.getElementById("myModal");
+    var citaId = modal.getAttribute("data-cita-id");
+
+    // Construir la URL con el ID de la cita
+    var url = "{% url 'cancelar_cita' 0 %}".replace("0", citaId);
+
+    // Redirigir a la URL
+    window.location.href = url;
+
+    // Cerrar el modal después de la redirección
+    cerrarModal();
+  }
+</script>
