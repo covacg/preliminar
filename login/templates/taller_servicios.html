@@ -587,12 +587,114 @@
   overflow: hidden; /* Hide any overflow */
 }
 
-@media (max-width: 768px) {
-    .service-item {
-        flex: 0 0 100%; /* En pantallas pequeñas, cada cuadro toma el ancho completo */
-        max-width: 100%; /* Ancho máximo del 100% para pantallas pequeñas */
+.modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        .modal h5 {
+            color: #333;
+        }
+
+        .modal p {
+            color: #555;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-danger,
+        .btn-secondary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        .btn-danger {
+            background-color: #ff4d4f; /* Rojo para el botón de eliminar */
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #ccc; /* Gris para el botón de cancelar */
+            color: #333;
+        }
+
+        .error-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 0; 
+            z-index: 999; 
+        }
+
+        .error {
+            width: 320px;
+            padding: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+            background: #EF665B;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px -3px #111;
+            margin-top: 10px
+        }
+
+        .error__icon {
+            width: 20px;
+            height: 20px;
+            transform: translateY(-2px);
+            margin-right: 8px;
+        }
+
+        .error__icon path {
+            fill: #fff;
+        }
+
+        .error__title {
+            font-weight: 500;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .error__close {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .error__close path {
+            fill: #fff;
+        }
+        
+        .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 200px;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
     }
-}
   </style>
 </head>
 <body>
@@ -699,14 +801,49 @@
             </div>
             <div class="service-icons">
               <a href="{% url 'editar_servicio' servicio.id %}" class="edit-icon"><i class='bx bx-edit'></i></a>
-              <a href="{% url 'eliminar_servicio' servicio.id %}" class="delete-icon"><i class='bx bx-trash'></i></a>
+              <a href="#" class="delete-icon" data-toggle="modal" data-target="#confirmDeleteModal" data-serviceid="{{ servicio.id }}"><i class='bx bx-trash'></i></a>
             </div>
           </li>
         {% endfor %}
       </ul>
       </ul>      
     </div>
+
+    <div class="modal" id="confirmDeleteModal">
+      <h5>Confirmar Eliminación</h5>
+      <p>¿Estás seguro de que deseas eliminar este servicio?</p>
+      <div class="modal-footer">
+          <a id="confirmDeleteBtn" class="btn btn-danger" href="#">Eliminar</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+  </div>
+
+
+
+  <div class="error-container {% if messages %}block{% else %}none{% endif %}">
+    {% if messages %}
+      <div class="error">
+        <div class="error__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none">
+            <path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path>
+          </svg>
+        </div>
+        <div class="error__title">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+        <div class="error__close" id="closeButton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" height="20">
+            <path fill="#393a37" d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"></path>
+          </svg>
+        </div>
+      </div>
+    {% endif %}
+  </div>
   </section>
+
+
   <script>
     function openForm() {
       document.getElementById("chatbotpanel").style.display = "block";
@@ -719,3 +856,44 @@
   </script>  
 </body>
 </html>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // Obtener referencia al modal y al botón de confirmación
+      var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+      var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+      // Manejar clic en el ícono de eliminar
+      document.querySelectorAll('.delete-icon').forEach(function (deleteIcon) {
+          deleteIcon.addEventListener('click', function () {
+              var serviceId = deleteIcon.getAttribute('data-serviceid');
+              openConfirmationModal(serviceId);
+          });
+      });
+
+      // Función para abrir el modal de confirmación
+      function openConfirmationModal(serviceId) {
+          // Establecer el enlace del botón de eliminar para redirigir a la URL correcta con el ID del servicio
+          confirmDeleteBtn.href = '/eliminar_servicio/' + serviceId + '/';
+          // Mostrar el modal
+          confirmDeleteModal.style.display = 'block';
+      }
+
+      // Manejar clic en el botón de cancelar del modal
+      document.querySelectorAll('.btn-secondary').forEach(function (cancelBtn) {
+          cancelBtn.addEventListener('click', function () {
+              // Ocultar el modal
+              confirmDeleteModal.style.display = 'none';
+          });
+      });
+
+      // Opcional: Manejar clic fuera del contenido del modal para cerrar el modal
+      window.addEventListener('click', function (event) {
+          if (event.target === confirmDeleteModal) {
+              confirmDeleteModal.style.display = 'none';
+          }
+      });
+  });
+</script>
+

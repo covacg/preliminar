@@ -585,40 +585,45 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
   function cambiarEstadoCita(button) {
     const citaId = button.getAttribute('data-cita-id');
     const estadoActual = button.getAttribute('data-estado-actual');
     let nuevoEstado = button.getAttribute('data-nuevo-estado');
   
-    console.log("estadoActual:", estadoActual);
-    if (estadoActual === 'Agendada') {
-      nuevoEstado = 'En espera de entrega de vehículo';
-    } else if (estadoActual === 'En espera de entrega de vehículo') {
-      nuevoEstado = 'En progreso';
-    } else if (estadoActual === 'En progreso') {
-      nuevoEstado = 'En espera de recogida de vehículo';
-    } else if (estadoActual === 'En espera de recogida de vehículo') {
-      nuevoEstado = 'Terminada';
-    }
+    // Mostrar un cuadro de diálogo de confirmación
+    const confirmacion = confirm('¿Estás seguro de cambiar el estado de la cita?');
   
-    $.post(
-      "{% url 'cambiar_estado_cita' 0 'placeholder' %}".replace('0', citaId).replace('placeholder', nuevoEstado),
-      function(data) {
-        if (data.success) {
-          // Actualizar el estado de la cita en la interfaz.
-          $('#estado-' + citaId).text(data.nuevo_estado);
-          // Recargar la página.
-          location.reload();
-        } else {
-          alert('Error al actualizar el estado de la cita');
-        }
+    // Verificar la respuesta del usuario
+    if (confirmacion) {
+      // Realizar la acción solo si el usuario ha confirmado
+      console.log("estadoActual:", estadoActual);
+      if (estadoActual === 'Agendada') {
+        nuevoEstado = 'En espera de entrega de vehículo';
+      } else if (estadoActual === 'En espera de entrega de vehículo') {
+        nuevoEstado = 'En progreso';
+      } else if (estadoActual === 'En progreso') {
+        nuevoEstado = 'En espera de recogida de vehículo';
+      } else if (estadoActual === 'En espera de recogida de vehículo') {
+        nuevoEstado = 'Terminada';
       }
-    );
+  
+      $.post(
+        "{% url 'cambiar_estado_cita' 0 'placeholder' %}".replace('0', citaId).replace('placeholder', nuevoEstado),
+        function(data) {
+          if (data.success) {
+            // Actualizar el estado de la cita en la interfaz.
+            $('#estado-' + citaId).text(data.nuevo_estado);
+            // Recargar la página.
+            location.reload();
+          } else {
+            alert('Error al actualizar el estado de la cita');
+          }
+        }
+      );
+    }
   }
-  </script>
+</script>
 
     
 
