@@ -18,15 +18,23 @@
 
         .container {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.5);
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             color: white;
             font-family: "Poppins", sans-serif;
-            width: 500px;
+            width: 600px;
             position: relative; /* Para posicionar el icono de flecha */
+            /* Add some padding inside the container to ensure contents do not touch the sides */
+            padding: 20px; /* Adjust as necessary */
+        }
+
+        h2 {
+            font-size: 30px;
+            font-family: "Poppins", sans-serif;
+            color: #0094FF;
         }
 
         .container h1 {
@@ -41,13 +49,13 @@
         }
 
         .container form table {
-            width: 100%;
+            width: calc(100% - 40px); /* Subtract the total horizontal padding */
         }
 
         .container form button {
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #404142bf;
             color: white;
             border: none;
             border-radius: 5px;
@@ -63,11 +71,13 @@
         }
 
         .form-field {
-            width: 100%;
+            width: calc(100% - 20px); /* Subtract the total horizontal padding */
             padding: 10px;
             margin: 10px 0;
             border: none;
             border-radius: 5px;
+            /* If inputs are still touching container edges, increase margin here */
+            margin: 10px auto; /* Center the input fields if necessary */
         }
 
         /* Estilos para el enlace de retroceso y la flecha */
@@ -136,6 +146,7 @@
                         <td><input type="text" id="{{ user_profile_form.descripcion.id_for_label }}" name="{{ user_profile_form.descripcion.name }}" class="form-field" required autocomplete="off" title="Ingrese la descripción"></td>
                     </tr>
                 </table>
+                <br>
                 <button type="submit" class="animation a6">Registrar Taller</button>
                 <p>{{ error_message }}</p>
             </form>
