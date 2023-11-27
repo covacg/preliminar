@@ -42,119 +42,88 @@
     }
 
     .dark-form {
-      display: flex; /* Use flexbox for layout */
-      flex-direction: column; /* Stack children vertically */
-      justify-content: space-around; /* Distribute space around items */
-      align-items: center; /* Center align items horizontally */
-      min-height: 200px; /* Ensure the form has a minimum height */
-      margin: 20px auto; /* Center the form with auto margins on the sides */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* This will center the button horizontally */
+      justify-content: center;
       background-color: rgba(255, 255, 255, 1); /* Set the background color to white */
       color: #18191a;
       padding: 30px; /* Add padding inside the form */
       border-radius: 10px; /* Round the corners of the form */
-      text-align: center; /* Center align the text */
+      width: 40%;
+      text-align: right;
+      margin-right: 10px;
     }
 
     .dark-form h1 {
       color: #0094FF /* Título en blanco */
     }
 
-    .dark-form .btn-primary {
-      display: inline-block; /* Asegura que se comporte como un botón */
-      padding: 10px 15px; /* Añade espacio alrededor del texto */
-      margin-top: 20px; /* Añade espacio por encima del botón */
-      margin-right: 20px; /* Añade espacio a la derecha del botón para evitar que esté pegado al borde */
-      border: none; /* Quita cualquier borde predeterminado */
-      border-radius: 5px; /* Redondea las esquinas */
-      background-color: rgba(0, 0, 0, 0.583); /* Color de fondo semi-transparente negro */
-      color: white; /* Color del texto blanco */
-      text-decoration: none; /* Quita el subrayado de los enlaces */
-      cursor: pointer; /* Cambia el cursor a la forma de una mano */
-      transition: background-color 0.3s ease; /* Suaviza la transición del color de fondo */
-      width: auto;
-      align-items: center;
-    }
+    .dark-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align items horizontally */
+  justify-content: center; /* Center align items vertically */
+  width: 100%; /* Set the form width to 100% of its parent container */
+}
 
-    .dark-form .btn-primary:hover {
-      background-color: #0094FF /* Cambia el color de fondo a verde al pasar el cursor */
-    }
+.dark-form .btn-primary {
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.583);
+  color: white;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  text-align: center;
+  margin: 20px auto; /* Apply auto margin to all sides to center the button */
+  width: 30%; /* Remove the width setting so it can size itself based on its content */
+}
 
-    .dark-form a {
-      justify-self: center;
-      grid-area: link;
-    }
 
-    .dark-form a:hover {
-      color: #005795; /* Color de vínculos en hover */
-    }
+.dark-form .btn-primary:hover {
+  background-color: #0094FF /* Cambia el color de fondo a verde al pasar el cursor */
+}
 
-    /* Estilo para centrar los campos del formulario */
-      .dark-form form {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Three equal columns */
-      grid-template-rows: auto auto; /* Two rows */
-      grid-template-areas: 
-        "tipo modelo ano"
-        "button button button"; /* The button takes all three columns */
-      grid-gap: 10px; /* Space between fields */
-      align-items: center; /* Align items vertically */
-      height: 20%;
-      width: 70%;
-    }
+.dark-form a {
+  display: block; /* Converts the inline element to a block-level element */
+  text-align: center; /* Centers the text inside a block-level element */
+  margin-top: 20px; /* Optional: adds some space above the link */
+}
 
-    .dark-form .tipo { /* You need to add the 'tipo' class to your Tipo label and input container */
-      grid-area: tipo;
-    }
+.dark-form a:hover {
+  color: #005795; /* Color de vínculos en hover */
+}
 
-    .dark-form .modelo { /* You need to add the 'modelo' class to your Modelo label and input container */
-      grid-area: modelo;
-    }
+.dark-form input[type="text"],
+.dark-form input[type="number"],
+.dark-form select {
+  width: 60%; /* This width should be adjusted so that label width + input/select width + margin-right equals 100% */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px; /* Adjust if necessary */
+  display: inline-block; /* Align with the label */
+}
 
-    .dark-form .ano { /* You need to add the 'ano' class to your Año label and input container */
-      grid-area: ano;
-    }
+.dark-form h1 {
+  text-align: center; 
+  width: 100%;
+}
 
-    .dark-form .btn-primary {
-      grid-area: button; /* Place the button in the 'button' area */
-      justify-self: center; /* Center the button horizontally in the grid area */
-      width: 50%; /* Or any other fixed width you prefer */
-      margin-top: 20px; /* Provide some space above the button */
-    }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align the items to the center of the flex container */
+  width: 100%; /* Take up the full width */
+  margin-bottom: 15px; /* Adjust the spacing between each form group */
+}
 
-    .form-group {
-      margin-bottom: 10px; /* Space between form groups */
-    }
 
-    .dark-form input[type="text"],
-    .dark-form input[type="number"],
-    .dark-form input[type="email"],
-    .dark-form select {
-      width: 100%; /* Use the full width of their grid cell */
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .form-group {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      width: 100%; /* Full width */
-      margin-bottom: 10px; /* Space between form groups */
-    }
-
-    .dark-form label {
-      justify-self: end; /* Align the label to the end of its cell */
-    white-space: nowrap; /* Prevent the label from wrapping */
-  }
-
-    .dark-form-group label {
-      margin-right: 10px;
-      white-space: nowrap; /* Prevent label text from wrapping */
-    }
 
     .open-button {
-      background-image: url('/static/images/Sleeping_bot.png'); /* Path to your bot image */
+      background-image: url('https://cdn-icons-png.flaticon.com/512/4712/4712126.png'); /* Path to your bot image */
       background-color: #18191a;
       background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
       background-position: center;
@@ -175,7 +144,6 @@
     .open-button.chat-open {
       display: none;
     }
-
 
     .chat-popup {
       display: none; /* Initially hidden */
@@ -203,32 +171,27 @@
       border-top-color: #FFFFFF;
     }
 
-    .chat-content { /* This class name is an example, use the actual class or ID from your HTML */
-      background-color: #00FF00; /* Replace with your preferred shade of green */
-      /* Other styles... */
-    }
-
     .chatbot-window {
         min-height: 410px;  
       }
 
     .btn_cancel {
-      background-image: url('/static/images/bot.png'); /* Path to your bot image */
-          background-color:  #18191a;
-          background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
-          background-position: center;
-          background-repeat: no-repeat; /* Prevent the image from repeating */
-          color: transparent; /* Hide the text */
-          border: none;
-          cursor: pointer;
-          /* opacity: 0.8; */
-          position: fixed;
-          bottom: 23px;
-          right: 30px;
-          width: 80px; /* Adjust to the size you want */
-          height: 80px; /* Adjust to the size you want */
-          overflow: hidden; /* Hide any overflow */
-        }
+      background-image: url('https://cdn-icons-png.flaticon.com/512/4712/4712010.png'); /* Path to your bot image */
+      background-color:  #18191a;
+      background-size: contain; /* Or 'cover' if you want the image to fully cover the button */
+      background-position: center;
+      background-repeat: no-repeat; /* Prevent the image from repeating */
+      color: transparent; /* Hide the text */
+      border: none;
+      cursor: pointer;
+      /* opacity: 0.8; */
+      position: fixed;
+      bottom: 23px;
+      right: 30px;
+      width: 80px; /* Adjust to the size you want */
+      height: 80px; /* Adjust to the size you want */
+      overflow: hidden; /* Hide any overflow */
+    }
 
     
   </style>
@@ -249,7 +212,7 @@
       {% csrf_token %}
       <div class="form-group">
         <label for="id_tipo">Tipo:</label>
-        <select name="tipo" id="id_tipo" required style="width: 110px;">
+        <select name="tipo" id="id_tipo">
           {% for tipo, tipo_display in form.fields.tipo.choices %}
             <option value="{{ tipo }}" {% if tipo == form.instance.tipo %}selected{% endif %}>{{ tipo_display }}</option>
           {% endfor %}
@@ -257,17 +220,15 @@
       </div>
       <div class="form-group">
         <label for="id_modelo">Modelo:</label>
-        <input type="text" name="modelo" id="id_modelo" value="{{ form.instance.modelo }}" style="width: 110px;" required>
+        <input type="text" name="modelo" id="id_modelo" value="{{ form.instance.modelo }}">
       </div>
       <div class="form-group">
         <label for="id_año">Año:</label>
-        <input type="number" name="ano" id="id_año" value="{{ form.instance.año }}" style="width: 110px;" required>
+        <input type="number" name="ano" id="id_año" value="{{ form.instance.año }}">
     </div>
-      <button type="submit" class="btn-primary">Guardar Cambios</button>
+      <button type="submit" class="btn-primary">Guardar cambios</button>      
     </form>
-    
-    <br>
-    <a href="{% url 'cvehiculos' %}">Volver a la vista principal</a>
+    <a href="{% url 'cvehiculos' %}">Regresar</a>
   </div>
   <script>
     function openForm() {
