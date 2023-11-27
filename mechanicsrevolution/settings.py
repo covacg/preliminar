@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mq9$$4v(%*xrl&jzet(1u36u!&3u_9ewvnk8&mr44$t$3&(gdp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://mechassist2023.azurewebsites.net/','127.0.0.1','*']
 
